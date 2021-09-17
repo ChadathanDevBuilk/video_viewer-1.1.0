@@ -271,6 +271,7 @@ class _VideoViewerCoreState extends State<VideoViewerCore> {
   //GESTURES//
   //--------//
   Widget _globalGesture(Widget child) {
+    final video = _query.video(context);
     return RawKeyboardListener(
       focusNode: _focusRawKeyboard,
       onKey: (e) {
@@ -291,7 +292,7 @@ class _VideoViewerCoreState extends State<VideoViewerCore> {
       child: Listener(
         onPointerDown: (e) => _pointers++,
         onPointerUp: (e) => _pointers--,
-        child: GestureDetector(
+        child: (video.isFullScreen) ? GestureDetector(
           //VOLUME
           onVerticalDragStart: _volumeDragStart,
           onVerticalDragUpdate: _volumeDragUpdate,
@@ -300,6 +301,8 @@ class _VideoViewerCoreState extends State<VideoViewerCore> {
           onHorizontalDragStart: _forwardDragStart,
           onHorizontalDragUpdate: _forwardDragUpdate,
           onHorizontalDragEnd: (_) => _forwardDragEnd(),
+          child: child,
+        ) : Container(
           child: child,
         ),
       ),
